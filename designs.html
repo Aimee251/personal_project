@@ -1,35 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aimee — Designs</title>
+  <title>Aimee — My Designs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--grass);
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--grass-pale);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--grass-deep);
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .section-title span {
+      font-style: italic;
+      color: var(--grass);
+    }
+
+    .section-desc {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--moss);
+      width: 100%;
+      margin-bottom: 24px;
+      opacity: 0.8;
+    }
+
+    .gallery-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      animation: fadeUp 0.9s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(106, 171, 122, 0.3), transparent);
+      margin: 8px 0;
+    }
+
+    /* ── Photo & Art grid ── */
+    .photo-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .photo-card {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1.5px solid rgba(106, 171, 122, 0.22);
+      box-shadow: 0 8px 28px rgba(44, 80, 64, 0.10);
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      animation: floatCard var(--float-dur, 4s) ease-in-out infinite alternate;
+      animation-delay: var(--float-delay, 0s);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease, border-color 0.3s;
+      position: relative;
+    }
+
+    .photo-card.tall {
+      grid-row: span 2;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-10px) scale(1.02) !important;
+      box-shadow: 0 24px 56px rgba(44, 80, 64, 0.18);
+      border-color: var(--grass-light);
+      animation-play-state: paused;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      min-height: 200px;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 18px 14px;
+      background: linear-gradient(to top, rgba(44, 80, 64, 0.7), transparent);
+      color: white;
+      font-size: 0.82rem;
+      font-weight: 300;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .photo-card:hover .photo-caption {
+      opacity: 1;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 46, 36, 0.88);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 88vw;
+      max-height: 85vh;
+      border-radius: 18px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
+      animation: scaleIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.88);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-size: 1.2rem;
+      color: white;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.12);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* ── Video wrapper ── */
+    .video-wrapper {
+      width: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1.5px solid rgba(106, 171, 122, 0.22);
+      box-shadow: 0 8px 28px rgba(44, 80, 64, 0.10);
+      animation: floatCard 4.5s ease-in-out infinite alternate;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.5);
+      aspect-ratio: 16/9;
+    }
+
+    .video-wrapper iframe,
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
+
+    @media (max-width: 600px) {
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-card.tall {
+        grid-row: span 1;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
   <div class="bg-canvas"></div>
   <div id="grass-container"></div>
   <div id="petals-container"></div>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
   <div class="container">
+
     <a class="back-btn" href="index.html">← Back to Aimee</a>
 
     <section class="page-header">
       <h1 class="page-title">My <span>Designs</span></h1>
-      <p class="page-subtitle">Visual stories & crafted aesthetics 🎨</p>
+      <p class="page-subtitle">Photos, art & media I've created 🎨</p>
     </section>
 
-    <div class="coming-soon">
-      <div class="coming-soon-icon">🎨</div>
-      <h2>Content blooming soon…</h2>
-      <p>This garden is still being planted. Check back soon for designs, brand work, and creative experiments.</p>
-      <a class="back-btn" href="index.html">← Go back home</a>
+
+    <!-- ════════════════════════════════════════
+         SECTION 1 — PHOTO GALLERY
+         To add/change a photo: replace the src="images/photoX.jpg"
+         with your own image path or URL.
+         ════════════════════════════════════════ -->
+    <div class="gallery-section">
+      <div class="section-label">01 — Photography</div>
+      <h2 class="section-title">Photo <span>Gallery</span></h2>
+      <p class="section-desc">Moments caught through the lens — nature, city, and everything in between.</p>
+
+      <div class="photo-grid">
+
+        <!-- PHOTO 1 ── tall left card (spans 2 rows)
+             👉 Replace src with your image path e.g. src="images/photo1.jpg" -->
+        <div class="photo-card tall" style="--float-dur:4.4s; --float-delay:0s"
+          onclick="openLightbox('images/photo1.jpg')">
+          <img src="images/photo1.jpg" alt="Cherry blossoms in Vancouver">
+          <div class="photo-caption">Cherry blossoms, Vancouver</div>
+        </div>
+
+        <!-- PHOTO 2
+             👉 Replace src with your image path e.g. src="images/photo2.jpg" -->
+        <div class="photo-card" style="--float-dur:5s; --float-delay:0.4s" onclick="openLightbox('images/photo2.jpg')">
+          <img src="images/photo2.jpg" alt="Daisies in the grass">
+          <div class="photo-caption">Daisies, Totem Park</div>
+        </div>
+
+        <!-- PHOTO 3
+             👉 Replace src with your image path e.g. src="images/photo3.jpg" -->
+        <div class="photo-card" style="--float-dur:4.1s; --float-delay:0.8s"
+          onclick="openLightbox('images/photo3.jpg')">
+          <img src="images/photo3.jpg" alt="River rapids">
+          <div class="photo-caption">River rapids, Banff</div>
+        </div>
+
+        <!-- PHOTO 4
+             👉 Replace src with your image path e.g. src="images/photo4.jpg" -->
+        <div class="photo-card" style="--float-dur:4.8s; --float-delay:1.1s"
+          onclick="openLightbox('images/photo4.jpg')">
+          <img src="images/photo4.jpg" alt="Trees through a bus window">
+          <div class="photo-caption">Trees through glass, Beijing</div>
+        </div>
+
+      </div>
     </div>
+
+    <div class="section-divider"></div>
+
+
+    <!-- ════════════════════════════════════════
+         SECTION 2 — ART GALLERY
+         To add art images: copy a <div class="photo-card"> block
+         and replace the src with your image file.
+         Example:
+           <img src="images/painting1.jpg" alt="My oil painting">
+         ════════════════════════════════════════ -->
+    <div class="gallery-section" style="animation-delay:0.3s">
+      <div class="section-label">02 — Original Art</div>
+      <h2 class="section-title">Art <span>Gallery</span></h2>
+      <p class="section-desc">Oil paintings, comic drawings & hand-crafted pieces.</p>
+
+      <div class="photo-grid">
+
+        <!-- ART 1 — OIL PAINTING
+             👉 Replace src="images/art1.jpg" with your painting image -->
+        <div class="photo-card" style="--float-dur:4.6s; --float-delay:0s" onclick="openLightbox('images/art1.jpg')">
+          <img src="images/art1.jpg" alt="Oil painting">
+          <div class="photo-caption">Oil painting 🖼️</div>
+        </div>
+
+        <!-- ART 2 — COMIC
+             👉 Replace src="images/art2.jpg" with your comic image -->
+        <div class="photo-card" style="--float-dur:5.2s; --float-delay:0.5s" onclick="openLightbox('images/art2.jpg')">
+          <img src="images/art2.jpg" alt="Comic drawing">
+          <div class="photo-caption">Comic drawing ✏️</div>
+        </div>
+
+        <!-- ART 3 — EXTRA SLOT
+             👉 Replace src="images/art3.jpg" or remove this block if not needed -->
+        <div class="photo-card" style="--float-dur:4.3s; --float-delay:1s" onclick="openLightbox('images/art3.jpg')">
+          <img src="images/art3.jpg" alt="Artwork">
+          <div class="photo-caption">Artwork 🎨</div>
+        </div>
+
+        <!-- ART 4 — EXTRA SLOT
+             👉 Replace src="images/art4.jpg" or remove this block if not needed -->
+        <div class="photo-card" style="--float-dur:4.9s; --float-delay:1.4s" onclick="openLightbox('images/art4.jpg')">
+          <img src="images/art4.jpg" alt="Artwork">
+          <div class="photo-caption">Artwork 🎨</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+
+    <!-- ════════════════════════════════════════
+         SECTION 3 — MEDIA GALLERY
+         TWO OPTIONS to add your video:
+
+         OPTION A — YouTube (recommended):
+           1. Upload your video to YouTube
+           2. Get the video ID from the URL:
+              youtube.com/watch?v=VIDEO_ID_HERE
+           3. Replace VIDEO_ID_HERE below with your actual ID
+
+         OPTION B — Local video file:
+           1. Put your .mp4 file in a videos/ folder
+           2. Swap the <iframe> below for:
+              <video controls>
+                <source src="videos/your-video.mp4" type="video/mp4">
+              </video>
+         ════════════════════════════════════════ -->
+    <div class="gallery-section" style="animation-delay:0.5s">
+      <div class="section-label">03 — Media & Motion</div>
+      <h2 class="section-title">Media <span>Gallery</span></h2>
+      <p class="section-desc">CapCut edits, Canva designs & motion work.</p>
+
+      <!-- VIDEO 1
+           👉 OPTION A: Replace VIDEO_ID_HERE with your YouTube video ID -->
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE" title="Aimee's media work"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- VIDEO 2 (optional — remove if not needed)
+           👉 OPTION A: Replace VIDEO_ID_HERE with your second YouTube video ID
+           👉 OPTION B: Use a <video> tag as shown above -->
+      <div class="video-wrapper" style="margin-top: 20px;">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE" title="Aimee's media work 2"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+    </div>
+
   </div>
 
   <script src="script.js"></script>
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.getElementById('lightbox-img').src = '';
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
 </body>
+
 </html>
