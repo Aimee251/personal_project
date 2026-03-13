@@ -7,6 +7,180 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* ── Ice cream list ── */
+    .icecream-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      animation: fadeUp 0.9s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    /* ── Each row card ── */
+    .ic-card {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      background: rgba(255,255,255,0.72);
+      border: 1.5px solid rgba(106,171,122,0.22);
+      border-radius: 28px;
+      padding: 24px 32px 24px 24px;
+      backdrop-filter: blur(12px);
+      animation: floatCard var(--float-dur, 4s) ease-in-out infinite alternate;
+      animation-delay: var(--float-delay, 0s);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.35s ease,
+                  border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ic-card::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--glow-color, rgba(168,213,181,0.2)) 0%, transparent 70%);
+      transition: transform 0.5s ease;
+    }
+
+    .ic-card:hover {
+      transform: translateY(-10px) scale(1.02) !important;
+      box-shadow: 0 24px 56px rgba(44,80,64,0.16);
+      border-color: var(--grass-light);
+      animation-play-state: paused;
+    }
+
+    .ic-card:hover::before {
+      transform: scale(1.5);
+    }
+
+    /* ── Rank badge ── */
+    .ic-rank {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--grass);
+      background: var(--grass-mist);
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Image on left ── */
+    .ic-img-wrap {
+      flex-shrink: 0;
+      width: 130px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: floatImg var(--img-float, 3.5s) ease-in-out infinite alternate;
+      animation-delay: var(--img-delay, 0.2s);
+      margin-top: 8px;
+    }
+
+    @keyframes floatImg {
+      from { transform: translateY(0px) rotate(-2deg); }
+      to   { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    .ic-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(44,80,64,0.15));
+      transition: transform 0.3s ease;
+    }
+
+    .ic-card:hover .ic-img-wrap img {
+      transform: scale(1.08) rotate(4deg);
+    }
+
+    /* ── Text on right ── */
+    .ic-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ic-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--grass-deep);
+      line-height: 1.2;
+    }
+
+    .ic-name span {
+      font-style: italic;
+      color: var(--grass);
+    }
+
+    /* Star rating */
+    .ic-stars {
+      display: flex;
+      gap: 3px;
+      font-size: 1.1rem;
+    }
+
+    .ic-review {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--moss);
+      line-height: 1.55;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    .ic-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--grass-mist);
+      color: var(--grass-deep);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
+
+    /* ── Favourite crown card (first) ── */
+    .ic-card.fave {
+      border-color: rgba(106,171,122,0.45);
+      background: rgba(255,255,255,0.85);
+    }
+
+    .fave-crown {
+      position: absolute;
+      top: -2px;
+      right: 20px;
+      font-size: 1.6rem;
+      animation: crownBob 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes crownBob {
+      from { transform: translateY(0) rotate(-5deg); }
+      to   { transform: translateY(-6px) rotate(5deg); }
+    }
+
+    @media (max-width: 600px) {
+      .ic-card { flex-direction: column; text-align: center; padding: 28px 20px; }
+      .ic-info  { align-items: center; }
+      .ic-tag   { align-self: center; }
+      .ic-rank  { top: 10px; left: 10px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -15,19 +189,96 @@
   <div id="petals-container"></div>
 
   <div class="container">
+
     <a class="back-btn" href="index.html">← Back to Aimee</a>
 
+    <!-- Page header -->
     <section class="page-header">
       <h1 class="page-title">Favourite <span>Ice Cream</span></h1>
-      <p class="page-subtitle">The most important page on this whole website 🍦</p>
+      <p class="page-subtitle">My most important opinions, ranked 🍦</p>
     </section>
 
-    <div class="coming-soon">
-      <div class="coming-soon-icon">🍦</div>
-      <h2>Scoops incoming…</h2>
-      <p>The most critical content is still being curated. Flavour rankings, hot takes, and reviews — coming soon.</p>
-      <a class="back-btn" href="index.html">← Go back home</a>
+    <!-- Ice cream list -->
+    <div class="icecream-list">
+
+      <!-- 1. UBE — favourite -->
+      <div class="ic-card fave"
+           style="--float-dur:4.4s; --float-delay:0s; --glow-color:rgba(167,139,250,0.2)">
+        <div class="fave-crown">👑</div>
+        <div class="ic-rank">#1 FAVE</div>
+        <div class="ic-img-wrap" style="--img-float:3.8s; --img-delay:0s">
+          <img src="images/icecream1.png" alt="Ube ice cream">
+        </div>
+        <div class="ic-info">
+          <div class="ic-name"><span>Ube</span></div>
+          <div class="ic-stars">⭐⭐⭐⭐⭐</div>
+          <div class="ic-review">"Mister's Ube is the best!"</div>
+          <span class="ic-tag">Must Try</span>
+        </div>
+      </div>
+
+      <!-- 2. Strawberry Cereal -->
+      <div class="ic-card"
+           style="--float-dur:5s; --float-delay:0.3s; --glow-color:rgba(251,182,206,0.2)">
+        <div class="ic-rank">#2</div>
+        <div class="ic-img-wrap" style="--img-float:4.2s; --img-delay:0.3s">
+          <img src="images/icecream2.png" alt="Strawberry ice cream">
+        </div>
+        <div class="ic-info">
+          <div class="ic-name"><span>Strawberry Cereal</span></div>
+          <div class="ic-stars">⭐⭐⭐⭐⭐</div>
+          <div class="ic-review">"Rain or Shine's favourite — and mine every season."</div>
+          <span class="ic-tag">Rain or Shine</span>
+        </div>
+      </div>
+
+      <!-- 3. Matcha -->
+      <div class="ic-card"
+           style="--float-dur:4.7s; --float-delay:0.6s; --glow-color:rgba(134,198,120,0.2)">
+        <div class="ic-rank">#3</div>
+        <div class="ic-img-wrap" style="--img-float:3.6s; --img-delay:0.6s">
+          <img src="images/icecream3.png" alt="Matcha ice cream">
+        </div>
+        <div class="ic-info">
+          <div class="ic-name"><span>Matcha</span></div>
+          <div class="ic-stars">⭐⭐⭐⭐⭐</div>
+          <div class="ic-review">"So good and healthy — a guilt-free win."</div>
+          <span class="ic-tag">Healthy Pick</span>
+        </div>
+      </div>
+
+      <!-- 4. Matcha Brownie -->
+      <div class="ic-card"
+           style="--float-dur:4.2s; --float-delay:0.9s; --glow-color:rgba(180,140,100,0.15)">
+        <div class="ic-rank">#4</div>
+        <div class="ic-img-wrap" style="--img-float:4.5s; --img-delay:0.9s">
+          <img src="images/icecream4.png" alt="Matcha brownie ice cream">
+        </div>
+        <div class="ic-info">
+          <div class="ic-name"><span>Matcha Brownie</span></div>
+          <div class="ic-stars">⭐⭐⭐⭐</div>
+          <div class="ic-review">"Sweet treat — love it."</div>
+          <span class="ic-tag">Sweet Treat</span>
+        </div>
+      </div>
+
+      <!-- 5. White Rabbit -->
+      <div class="ic-card"
+           style="--float-dur:5.2s; --float-delay:1.2s; --glow-color:rgba(220,220,230,0.25)">
+        <div class="ic-rank">#5</div>
+        <div class="ic-img-wrap" style="--img-float:3.9s; --img-delay:1.2s">
+          <img src="images/icecream5.png" alt="White Rabbit ice cream">
+        </div>
+        <div class="ic-info">
+          <div class="ic-name"><span>White Rabbit</span></div>
+          <div class="ic-stars">⭐⭐⭐⭐⭐</div>
+          <div class="ic-review">"RAIN OR SHINE — need I say more?!"</div>
+          <span class="ic-tag">Rain or Shine</span>
+        </div>
+      </div>
+
     </div>
+
   </div>
 
   <script src="script.js"></script>
