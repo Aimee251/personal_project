@@ -60,11 +60,12 @@ SKILLS:
 - Design & creative skills: PowerPoint design, Canva, CapCut, oil painting, drawing comics.
 
 EXPERIENCE (volunteering & leadership at UBC):
-- Information Technology Associate — Commerce Undergraduate Society of UBC Vancouver (Mar 2026–Present, CUS Presidential Portfolio)
-- VP of Marketing — Commerce Undergraduate Society of UBC Vancouver (Jan 2026–Present, Sauder Grad Night)
-- Member — Sauder JDC West Junior Development (Jan 2026–Present)
-- Administrative Subsystem Member — UBC Orbit Satellite Design Team (Sep 2025–Present, Outreach & Marketing)
-- Marketing Director — BUCS Community Team (May 2025–Present)
+- External Manager — Enactus Terra (Apr 2026–Present; secured a $1,000 GLOCAL micro-grant to fund sustainable development initiatives under Enactus Terra)
+- Information Technology Associate — Commerce Undergraduate Society of UBC Vancouver (Mar 2026–Present, CUS Presidential Portfolio; co-developing the Event Calendar, Finance website backend, and CUS website redesign; managing email infrastructure and security/phishing protocols using GitHub, Firebase, Google Cloud, and Convex)
+- VP of Marketing — Commerce Undergraduate Society of UBC Vancouver (Jan–Apr 2026, Sauder Grad Night)
+- Member — Sauder JDC West Junior Development (Jan–Apr 2026)
+- Administrative Subsystem Member — UBC Orbit Satellite Design Team (Sep 2025–Apr 2026, Outreach & Marketing)
+- Marketing Director — BUCS Community Team (May 2025–Apr 2026)
 - Orientation Leader — UBC Sauder School of Business (Sep 2025, 1 month)
 - Tri-mentorship Mentee — UBC BizTech (Feb–Mar 2025)
 

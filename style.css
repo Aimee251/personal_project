@@ -139,6 +139,45 @@ body {
   }
 }
 
+/* Social links */
+.social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  animation: fadeUp 1s 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid rgba(106, 171, 122, 0.3);
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--grass-deep);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.social-link:hover {
+  background: var(--grass-mist);
+  border-color: var(--grass-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(44, 80, 64, 0.1);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--grass-deep);
+}
+
+
 /* Avatar */
 .avatar-ring {
   width: 90px;
